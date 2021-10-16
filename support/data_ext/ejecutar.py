@@ -1,4 +1,4 @@
-import extraer_datos as  exdata
+import scrap as  exdata
 
 select= int(input("1.Extraer jugadores \n 2.Extraer equipos"))
 if select == 2:
