@@ -11,7 +11,7 @@ def extract(x,dic):
     for k,v in dic.items():
         if k.lower() in str(x).lower():
             return v
-    return x
+    return int(x)
 
 df["pens_home_score"] = df["pens_home_score"].apply(extract,dic = {"False":0})
 df["pens_away_score"] = df["pens_away_score"].apply(extract,dic = {"False":0})
