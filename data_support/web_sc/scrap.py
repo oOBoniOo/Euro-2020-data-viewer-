@@ -6,7 +6,7 @@ import re
 
 #funcion para extraer las imagenes
 def get_img(tag):
-    pattern = r"src=\".*\" "
+    pattern = r'src=\".*\"'
     link_img = re.findall(pattern,str(tag))[0]
     link_img = link_img.replace("src=","").replace('"',"").strip()
     return link_img 
@@ -39,9 +39,16 @@ def get_player_data(player):
 #Recorremos todas las paginas de jugadores de fifaindex y obtenemos la informacion de todos ellos
 def get_all_players():
     tf = open("../../data/players_bd.json", "w")
+
+    #conseguimos numero de paginas de jugadores total:
+    direc = f"https://www.fifaindex.com/players/?page=2"
+    peticion = requests.get(direc)
+    soup_page = BeautifulSoup(peticion.text)
+    ptot = int(soup_page.select("#bigpagination > nav:nth-child(1) > ul > li:nth-child(13) > a")[0].get("href").replace("'","").replace("?page=",""))
+
     bd = []
-    for i in range(1,633):
-        direc = f"https://www.fifaindex.com/players/fifa21_486/?page={i}"
+    for i in range(1,ptot + 1):
+        direc = f"https://www.fifaindex.com/players/?page={i}"
         peticion = requests.get(direc)
         soup_page = BeautifulSoup(peticion.text)
         
@@ -76,7 +83,7 @@ def get_all_teams():
     tf = open("../../data/teams_bd.json", "w")
     bd = []
     for i in range(1,24):
-        direc = f"https://www.fifaindex.com/teams/fifa21_486/?page={i}"
+        direc = f"https://www.fifaindex.com/teams/?page={i}"
         peticion = requests.get(direc)
         soup_page = BeautifulSoup(peticion.text)
         eqs = soup_page.select("body > main > div > div > div> div> table > tbody > tr:nth-of-type(n+3)")
