@@ -30,7 +30,7 @@ def get_player_data(player):
         "contry": c_link_nation.get("title"),
         "c_img": get_img(c_link_nation),
         "posiciones": pos,
-        "club":c_link_team.get("title").replace(" FIFA 21",""),
+        "club":c_link_team.get("title").replace(" FIFA 22",""),
         "club_img":get_img(c_link_team)
     }                           
     return player_data
@@ -56,7 +56,7 @@ def get_all_players():
 
         long = len(jug)
         for j in range(0,long):
-            print(f"Procesando pagina {i} de 632, jugador {j}")
+            print(f"Procesando pagina {i} de {ptot}, jugador {j}")
             bd.append(get_player_data(jug[j]))
     json.dump(bd,tf)                  
     tf.close()
