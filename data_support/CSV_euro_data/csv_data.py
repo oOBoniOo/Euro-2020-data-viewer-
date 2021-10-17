@@ -16,9 +16,17 @@ def extract(x,dic):
 df["pens_home_score"] = df["pens_home_score"].apply(extract,dic = {"False":0})
 df["pens_away_score"] = df["pens_away_score"].apply(extract,dic = {"False":0})
 
+
+#eliminamos espacios en las cadenas de los nombres de selecciones
+
+df["team_name_home"] = df["team_name_home"].apply(lambda x: x.strip())
+df["team_name_away"] = df["team_name_away"].apply(lambda x: x.strip())
+
 #Limpiamos columna "events_list"
 def sust(x):
     return ["".join(re.findall(r"[a-zA-Z0-9:,\{\}''_-]",x))]
+
+df["events_list"] = df["events_list"].apply(sust)
 
 #Limpiamos y formateamos alineaciones
 def chars(x):
