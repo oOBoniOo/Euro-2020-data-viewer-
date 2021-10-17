@@ -10,8 +10,9 @@ def random_player():
     random = np.random.choice(all_players)
     return random
 
-
-@app.route("/players")
+#Buscamos un jugadore por su nombre, si no recibimos parametros, se elige uno al azar.
+#Parametros "name"
+@app.route("/player")
 @serialize
 def list_player():
   
@@ -23,22 +24,24 @@ def list_player():
         player = players.find({"name":{"$regex":nombre, "$options":"i"}})
     return player
 
-@app.route("/players/search")
+#Podemos buscar jugadores por parametros name, club(equipo en el que juega) o pos(posicion)
+
+@app.route("/player/search")
 @serialize
 def search_players():
-    nombre = request.args.get("name")
-    if nombre:
-        nombre = f".*{nombre.lower()}.*"
+    n = request.args.get("name")
+    if n:
+        nombre = f".*{n.lower()}.*"
     else:
         nombre = ".*"
-    position =request.args.get("pos") 
-    if position:   
-        position = f".*{position.lower()}.*"
+    p =request.args.get("pos") 
+    if p:   
+        position = f".*{p.lower()}.*"
     else:
         position = ".*"
-    equipo = request.args.get("club")
-    if equipo:
-        equipo = f".*{equipo.lower()}.*"
+    e = request.args.get("club")
+    if e:
+        equipo = f".*{e.lower()}.*"
     else: 
         equipo = ".*"
     q = {
@@ -46,6 +49,8 @@ def search_players():
         "posiciones": {"$regex":position, "$options":"i"},
         "club": {"$regex":equipo, "$options":"i"}    
     }
-
-    player = players.find(q)
+    if n or p or e:
+        player = players.find(q)
+    else:
+        player = {"No Data": "No se introdujo ningun criterio de busqueda"}
     return player
