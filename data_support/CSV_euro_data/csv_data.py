@@ -3,6 +3,13 @@ from bson import json_util
 import re
 import json
 
+# ['stage', 'date', 'pens', 'pens_home_score', 'pens_away_score',
+#        'name_home', 'name_away', 'home_score',
+#        'away_score', 'pos_home', 'pos_away',
+#        'tshot_h', 'tshot_away', 's_target_home',
+#        's_target_away', 'won_home', 'won_away',
+#        'events_list', 'home_p', 'away_p']
+
 
 df = pd.read_csv("../../data/eurocup_2020_results.csv")
 
