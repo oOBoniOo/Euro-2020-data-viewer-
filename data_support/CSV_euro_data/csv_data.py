@@ -13,14 +13,32 @@ def extract(x,dic):
             return v
     return int(x)
 
+def extract2(x,dic):
+    for k,v in dic.items():
+        if k.lower() in str(x).lower():
+            return v
+    return x
+
+
+#eliminamos espacios ppio y final en las columnas de texto
+for c in df.columns:
+    if df[c].dtype == object:
+        df[c] = df[c].apply(lambda x: x.strip())
+
+
 df["pens_home_score"] = df["pens_home_score"].apply(extract,dic = {"False":0})
 df["pens_away_score"] = df["pens_away_score"].apply(extract,dic = {"False":0})
 
 
-#eliminamos espacios en las cadenas de los nombres de selecciones
 
-df["team_name_home"] = df["team_name_home"].apply(lambda x: x.strip())
-df["team_name_away"] = df["team_name_away"].apply(lambda x: x.strip())
+
+df["stage"] = df["stage"].apply(extract2,dic = {
+                                                "Semi-finals":"Semis",
+                                                "Quarter-finals": "Quarters",
+                                                "Group stage: Matchday 1":"G1",
+                                                "Group stage: Matchday 2":"G2",
+                                                "Group stage: Matchday 3":"G3"
+                                              })
 
 #Limpiamos columna "events_list"
 def sust(x):
