@@ -12,23 +12,23 @@ import plotly_express as px
 #        'shots_on_target_away', 'duels_won_home', 'duels_won_away',
 #        'events_list', 'lineup_home', 'lineup_away']
 
+def menu_partidos():
+    st.title("Datos de partidos")
+    selected_option= st.selectbox("Local/Visitante", ["Goles","Disparos","Posesion"])  
+    if selected_option == "Goles":
+        mostrar_goles()
 
-def mostrar_partidos():
-    
-    st.title("COSAS CON EQUIPOS")
-    col1, col2, col3= st.columns(3)
+def mostrar_goles():
+    st.title("Goles por selección")
+    col1, col2= st.columns(2)
     with col1:
         lista_teams = datos.lista_sel()
         lista_teams.append("Todas")
         selected_team = st.multiselect("Elige Selecion", lista_teams, default="Todas")
     with col2:
-        lista_ha = ["Local","Visitante"]
-        selected_ronda = st.multiselect("Local/Visitante", lista_ha)          
-    
-    with col3:
-        lista_rondas = list(datos.list_rounds())
-        lista_rondas.append("Todas")
-        selected_ronda = st.multiselect("Elige Ronda", lista_rondas, default="Todas")  
+        lista_ha = ["Local","Visitante","Todo"]
+        selected_home_away= st.selectbox("Local/Visitante", lista_ha)          
+
 
     partis = datos.get_matchs_columns(['stage','team_name_home', 'team_name_away', 'team_home_score','team_away_score'])
     g_home = partis.groupby(["team_name_home"]).sum().reset_index()[["team_name_home","team_home_score"]]
@@ -41,43 +41,41 @@ def mostrar_partidos():
                         'team_name_away': 'team'}, inplace=True)
 
 
-    print("ESTOY> POR AQUI")
-    print(partis)
+    def selector(s_r,datos,name="team"):
+        if s_r.lower() == "local":
+            #Grafico goles local
+            fig = px.pie(datos, values='home', names=name,title="Goles como local")
+        elif s_r.lower() == "visitante":
+            #Grafico goles visitante
+            fig = px.pie(datos, values='away', names=name,title="Goles como visitante")
+        else:
+            #Grafico goles totales
+            fig = px.pie(datos, values='tot', names=name,title="Goles totales")
+        return fig
+
+
 
     if  "Todas" not in selected_team:
-        df = df[df['team'].isin(selected_team)]
-        print(df)
+        if len(selected_team) == 1:
+            df = df[df['team'].isin(selected_team)]
+            nuevodf = df.T
+            nuevodf = nuevodf.drop(["team"],axis=0)
+            fig = px.pie(nuevodf,nuevodf.columns[0],  title="Goles totales")
+
+    
+        else:
+            df = df[df['team'].isin(selected_team)]
+            fig = selector(selected_home_away,df)
     else:
-        pass
-    print(f"estoy aqui fuera \n {df}")  
-    # if  "Todas" not in selected_ronda:
-    #     #df = pd.DataFrame(partis)
-    #     df = df[df["stage"].isin(selected_ronda)]
+        fig = selector(selected_home_away,df)
 
-    print(f"estoy fuera del if de las rondas \n {df}")
-
-    
-    c1,c2,c3 = st.columns(3)
-    fig1 = px.pie(df, values='home', names="team",title="Goles como local")
-    fig2 = px.pie(df, values='away', names="team",title="Goles como visitante")
-    fig3 = px.pie(df, values='tot', names="team",title="Goles totales")
-    st.write(fig1)
-    st.write(fig2)
-    st.write(fig3)
-
-    st.dataframe(df)
+    c1,c2 = st.columns(2)
 
 
 
+    c2.write(fig)
 
+    c1.dataframe(df)
 
-
-
-    
-
-
-
-    
-    print("LLEGO AQUI")
-    #st.dataframe(df)
-
+def mostrar_tiros():
+    pass

@@ -9,15 +9,20 @@ def random_squad():
     random = np.random.choice(all_squads)
     return random
 
+@app.route("/squads/list")
+@serialize
+def lista():
+    all_countries = squads.find({}).distinct('country')
+    return all_countries
 
-
-@app.route("/squad")
+@app.route("/squads")
 @serialize
 def list_squad():
-    squad = request.args.get("squad")
+    country = request.args.get("squad")
+    print(country)
     if not country:
-        player = random_squad()
+        squad = random_squad()
     else:
-        country = f".*{squad.lower()}.*"
-        player = squads.find({"squad":{"$regex":country, "$options":"i"}})
-    return player
+        country = f".*{country.lower()}.*"
+        squad = squads.find({"country":{"$regex":country, "$options":"i"}})
+    return squad

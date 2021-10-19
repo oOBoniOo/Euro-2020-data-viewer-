@@ -21,6 +21,16 @@ def lista_sel():
     url = "http://127.0.0.1:5000/matchs/list_sel"
     return requests.get(url).json()
 
+def lista_squads():
+    url = "http://127.0.0.1:5000/squads/list"
+    return requests.get(url).json()
+
+def get_squad_players(parametros):
+    url = "http://127.0.0.1:5000/squads"
+    return requests.get(url,params=parametros).json()
+
+
+
 def get_goals(partidos):
     df = pd.DataFrame(partidos)
     print(df)

@@ -5,6 +5,7 @@ import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 import pages.partidos as pt
+import pages.squads as sq
 
 
 st.image("img/e20b.png",width=None)
@@ -16,6 +17,6 @@ col1, col2, col3= st.columns(3)
 b1 = st.sidebar.radio("Datos:",["Partidos", "Selecciones", "Jugadores"])
 
 if b1 == "Partidos":
-    pt.mostrar_partidos()
-
-   
+    pt.menu_partidos()
+elif b1 == "Selecciones":
+    sq.convocatorias()
