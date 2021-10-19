@@ -25,9 +25,10 @@ def lista_squads():
     url = "http://127.0.0.1:5000/squads/list"
     return requests.get(url).json()
 
-def get_squad_players(parametros):
+def get_squad_players(q):
     url = "http://127.0.0.1:5000/squads"
-    return requests.get(url,params=parametros).json()
+    dict = {"squad":q}
+    return requests.get(url,params=dict).json()[0]
 
 
 
@@ -43,6 +44,13 @@ def get_goals(partidos):
                            'team_away_score': 'away',
                            'team_name_away': 'team'}, inplace=True)
     return new
+
+def get_player(n):
+    url="http://127.0.0.1:5000/player"
+    q = {
+        "name":n
+    }
+    return requests.get(url,params=q).json()
 
 
 def list_rounds():
