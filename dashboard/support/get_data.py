@@ -40,4 +40,16 @@ def list_rounds():
 
     return df["stage"].unique()
 
+def get_convocatoria(squad):
+    url="http://127.0.0.1:5000/squad"
+    squad = requests.get(url).json()
 
+def get_titulares(team):
+    partidos = search_matchs(team)
+    titulares = []
+    for partido in partidos:
+        if partido["team_name_home"] == team:
+            titulares.append(partido["lineup_home"])
+        else:
+            titulares.append(partido["lineup_home"])
+    return titulares
