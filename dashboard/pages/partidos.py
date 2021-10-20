@@ -4,7 +4,8 @@ import support.get_data as datos
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly_express as px 
-
+import pdfkit as pdf
+import base64
 # ['stage', 'date', 'pens', 'pens_home_score', 'pens_away_score',
 #        'team_name_home', 'team_name_away', 'team_home_score',
 #        'team_away_score', 'possession_home', 'possession_away',
@@ -77,5 +78,19 @@ def mostrar_goles():
 
     c1.dataframe(df)
 
-def mostrar_tiros():
-    pass
+    def get_table_download_link(df):
+        """Generates a link allowing the data in a given panda dataframe to be downloaded
+        in:  dataframe
+        out: href string
+        """
+
+        df.to_html("df.html")
+        pdf.from_file("df.html","df.pdf")
+        
+        return f'<a href="df.pdf" download="df.pdf">Download PDF</a>'
+
+    export_pdf = st.button("Exportar datos en PDF")
+
+
+    if export_pdf:
+        st.markdown(get_table_download_link(df), unsafe_allow_html=True)

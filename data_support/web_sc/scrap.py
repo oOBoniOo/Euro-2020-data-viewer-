@@ -97,3 +97,7 @@ def get_all_teams():
                 bd.append(get_team_data(eqs[j]))
     json.dump(bd,tf)             
     tf.close()
+
+
+    #import unicode
+    #unicode.unicode(str)

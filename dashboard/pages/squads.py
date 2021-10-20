@@ -31,11 +31,14 @@ def convocatorias():
 
     #Obtenemos ficha del jugador elejido.
     player= datos.get_player(selected_player)
-    df_player = pd.DataFrame(player)
-
-    c2.image(player[0]["p_photo"])
-    c2.image(player[0]["club_img"])
-    c2.dataframe(df_player[["name","posiciones","club"]])
+    if player:
+        df_player = pd.DataFrame(player)
+        c2.image(player[0]["p_photo"])
+        c2.image(player[0]["club_img"])
+        c2.dataframe(df_player[["name","posiciones","club"]])
+    else:
+        c2.write("no data")
+        c2.image("img/caution.png")
     
 
 

@@ -46,7 +46,7 @@ def get_goals(partidos):
     return new
 
 def get_player(n):
-    url="http://127.0.0.1:5000/player"
+    url="http://127.0.0.1:5000/player/search"
     q = {
         "name":n
     }
