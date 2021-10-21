@@ -2,8 +2,12 @@ import requests
 import json
 import pandas as pd
 #Obtenemos todos los partidos
+def get_url():
+    return "http://10.0.0.25:8080"
+
+
 def get_matches():
-    url="http://127.0.0.1:5000/matchs"
+    url=f"{get_url()}/matchs"
     partidos = requests.get(url).json()
     return partidos
 
@@ -14,25 +18,25 @@ def get_matchs_columns(columns):
 
 #Devuelve una serie de partidos segun parametros()
 def search_matchs(parametros):
-    url=f"http://127.0.0.1:5000/matchs/search"
+    url=f"{get_url()}/matchs/search"
     partidos = requests.get(url,params=parametros).json()
     return partidos
 
 
 #Devuelve lista de seleciones
 def lista_sel():
-    url = "http://127.0.0.1:5000/matchs/list_sel"
+    url = f"{get_url()}/matchs/list_sel"
     return requests.get(url).json()
 
 #Devuelve lista de seleciones
 def lista_squads():
-    url = "http://127.0.0.1:5000/squads/list"
+    url = f"{get_url()}/squads/list"
     return requests.get(url).json()
 
 
 #Devuelve convocadosde una de selecion
 def get_squad_players(q):
-    url = "http://127.0.0.1:5000/squads"
+    url = f"{get_url()}/squads"
     dict = {"squad":q}
     return requests.get(url,params=dict).json()[0]
 
@@ -54,7 +58,7 @@ def get_goals(partidos):
 
 #Devuelve datos de un jugador.
 def get_player(n):
-    url="http://127.0.0.1:5000/player/search"
+    url=f"{get_url()}/player/search"
     q = {
         "name":n
     }
