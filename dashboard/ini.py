@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pages.partidos as pt
 import pages.squads as sq
-
+import pages.titulares as ti
 
 st.image("img/e20b.png",width=None)
 def load_matchs():
@@ -20,3 +20,5 @@ if b1 == "Partidos":
     pt.menu_partidos()
 elif b1 == "Selecciones":
     sq.convocatorias()
+else:
+    ti.mostrar_titulares()

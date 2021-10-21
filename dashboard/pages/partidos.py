@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit import caching
 import support.get_data as datos
-import pages.sendmail  as mail
+import pages.sendmail as mail
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly_express as px 
@@ -90,8 +90,9 @@ def mostrar_goles():
         
         return f'<a href="df.pdf" download="df.pdf">Download PDF</a>'
 
-    export_pdf = st.button("Exportar datos en PDF")
-    send_mail = st.button("Enviar por mail")
+    c1, c2 =st.columns(2)
+    export_pdf = c1.button("Exportar datos en PDF")
+    send_mail = c2.button("Enviar por mail")
 
     if export_pdf:
         st.markdown(get_table_download_link(df), unsafe_allow_html=True)
