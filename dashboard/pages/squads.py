@@ -3,6 +3,7 @@ from requests.sessions import default_headers
 import streamlit as st
 from streamlit import caching
 import support.get_data as datos
+import pages.add_player as ap
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly_express as px 
@@ -39,6 +40,9 @@ def convocatorias():
     else:
         c2.write("no data")
         c2.image("img/caution.png")
-    
+        add_p = c1.button("Añadir Jugador a la BD")
+        if add_p:
+            ap.add_p()
+
 
 

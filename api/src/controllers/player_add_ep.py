@@ -23,20 +23,36 @@ def get_insert_player():
 
 def insert_player():
     name = request.json.get("name")
+    p_photo = request.json.get("pphoto")
+    contry = request.json.get("co")
+    c_img = request.json.get("cimg")
+    posicion = request.json.get("pos")
+    club = request.json.get("club")
+    club_img = request.json.get("clubimg")
+
+
     if not name:
-        raise MissingArgumentError("name")
-    force = request.json.get("force")
-    if force != "true":
-        check = checkAuthorExists(name)
+        return {"Error":"jugador sin nombre"}
+    else:   
+        check = player_exists(name)
         if check:
             return check
-    res = authors.insert_one({"name":name})
-    return {
-        "status":"OK. Jugador añadido.",
-        "player_name": res.inserted_id
-    }
+        else:
+            res = players.insert_one({
+                "name":name,
+                "p_photo":p_photo,
+                "contry":contry,
+                "c_img":c_img,
+                "pos":posicion,
+                "club":club,
+                "club_img":club_img
+                })
+            return {
+                "status":"OK. Jugador añadido.",
+                "player_name": res.inserted_id
+            }
 
-def checkAuthorExists(name):
+def player_exists(name):
     res = list(players.find({"name":{"$regex":f".*{name.lower()}.*", "$options":"i"}}))
     if not res:
         return False
