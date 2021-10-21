@@ -2,6 +2,11 @@ import pandas as pd
 from bson import json_util 
 import re
 import json
+import os
+from dotenv import load_dotenv
+from pymongo import MongoClient
+
+
 
 # ['stage', 'date', 'pens', 'pens_home_score', 'pens_away_score',
 #        'name_home', 'name_away', 'home_score',
@@ -81,3 +86,18 @@ df["lineup_away"] = df["lineup_away"].apply(chars)
 df["lineup_away"] = df["lineup_away"].apply(lineups)
 
 df.to_csv('../../data/eurocup_2020_formated.csv', header=True, index=False)
+
+load_dotenv()
+
+password = os.getenv("MONGO_PASS")
+username = os.getenv("MONGO_USER")
+url = f"mongodb+srv://{username}:{password}@cluster0.bk0gi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+client = MongoClient(url)
+print(client)
+
+db = client.get_database("euro_2020")
+print(db)
+
+res = db.matchs.delete_many({})
+
+db.matchs.insert_many(df.to_dict('records'))
