@@ -22,6 +22,8 @@ def get_insert_player():
     }
 
 def insert_player():
+
+    #convertir a dic y trabajar con ellos.
     name = request.json.get("name")
     p_photo = request.json.get("pphoto")
     contry = request.json.get("co")
